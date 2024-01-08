@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>typing test</title>
+    <style>
+body {
+           height: auto;
+           width: auto;
+            font-family: sans-serif;
+            color: rgb(251, 244, 244);
+            background-color: #ece7f2bf;
+            background-image: url("typing-2048x1357.jpg");
+
+        }
+
+        .hero {
+            background: linear-gradient(rgba(65, 63, 66, 0.272), rgba(0, 0, 0, 0.7));
+            max-width: 500px;
+            width: 100%;
+            background-color: transparent;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: solid gray 1px;
+            margin: 120px auto;
+        }
+
+.typing-section{
+    text-align: center;
+}
+
+#textarea{
+    border: .1rem solid #A084DC;
+    border-radius: 1rem;
+    max-width: 50rem;
+    width: 60%;
+    height: 50%;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    margin-left: 15%;
+    margin-top: 20%;
+}
+
+#btn{
+    display: inline-block;
+    padding: 1rem 2.4rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: #847575;
+    color: #fff;
+    font-size: 1.8rem;
+    margin-top: 1.6rem;
+    margin-left: 40%;
+}
+
+h2{
+    font-size: 2.4rem;
+    text-transform: capitalize;
+    color: #c5c3d7;
+    text-align: center;
+}
+
+#showSentence, #score{
+    font-size: 1.6rem;
+    margin: 2rem 0;
+    letter-spacing: .02rem;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+<div class="hero">
+<section class="main-body">
+    <h2>typing Speed test</h2>
+    <p id="showSentence"></p>
+
+    <div class="typing_section">
+        <label for="textarea"></label>
+        <textarea name="textarea" id="textarea" cols="30" rows="10" disabled></textarea>
+        <br>
+        <button id="btn">Start</button>
+    </div>
+
+    <p id="score"></p>
+</section>
+</div>
+<script>
+    const typing_ground = document.querySelector('#textarea');
+const btn = document.querySelector('#btn');
+const score = document.querySelector('#score');
+const show_sentence = document.querySelector('#showSentence');
+
+let startTime, endTime, totalTimeTaken;
+
+
+const sentences = ['We went for a walk in the park.',
+    'The sun shines brightly.',
+    'They laughed at the joke.']
+
+
+
+const calculateTypingSpeed = (time_taken) => {
+    let  totalWords = typing_ground.value.trim();
+    let actualWords = totalWords === '' ? 0 : totalWords.split(" ").length;
+
+    if(actualWords !== 0) {
+        let typing_speed  =  (actualWords / time_taken) * 60;
+        typing_speed = Math.round(typing_speed);
+        score.innerHTML = `Your typing speed is ${typing_speed} words per minutes & you wrote ${actualWords} words & time taken ${time_taken} sec`;
+    }else{
+        score.innerHTML = `Your typing speed is 0 words per minutes & time taken ${time_taken} sec`;
+    }
+}
+
+
+const endTypingTest = () => {
+    btn.innerText = "Start";
+
+    let date = new Date();
+    endTime = date.getTime();
+
+    totalTimeTaken = (endTime -startTime) / 1000;
+
+    calculateTypingSpeed(totalTimeTaken);
+
+    show_sentence.innerHTML = "";
+    typing_ground.value = "";
+}
+
+
+const startTyping = () => {
+    let randomNumber = Math.floor(Math.random() * sentences.length);
+    
+    show_sentence.innerHTML = sentences[randomNumber];
+
+    let date = new Date();
+    startTime = date.getTime();
+
+    btn.innerText = "Done";
+}
+
+btn.addEventListener('click', () => {
+    switch (btn.innerText.toLowerCase()) {
+        case "start":
+            typing_ground.removeAttribute('disabled');
+            startTyping();
+            break;
+
+        case "done":
+            typing_ground.setAttribute('disabled' , 'true');
+            endTypingTest();
+            break;
+    }
+})
+</script>
+</body>
+</html>
+</body>
+</html>
